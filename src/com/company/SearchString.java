@@ -4,7 +4,7 @@ import java.util.*;
 public class SearchString {
     public static void main(String[] args) {
         int countWords = 10000000;
-        StaticArray staticArr = new StaticArray(countWords);
+        MyArray myArr = new MyArray(countWords);
         Map<Integer, List<String>> myMap = new HashMap<>();
 
         Scanner console = new Scanner(System.in);
@@ -16,7 +16,7 @@ public class SearchString {
             System.out.println("3: Exit");
             System.out.print("Type action: ");
             menu = console.nextLine();
-            System.out.println("\n\n\n\n");
+            System.out.println("\n\n");
 
             switch (menu) {
                 case "1": { //Generate 1000000 random words
@@ -28,11 +28,11 @@ public class SearchString {
                         myMap.put(i + 97, list);
                     }
 
-                    //fill static_array and hash_table
+                    //fill array and hash_table
                     for (int i=0; i<countWords; i++) {
                         randString = getRandStr();
 
-                        staticArr.addWord(i, randString); //add to static array
+                        myArr.addWord(i, randString); //add to static array
 
                         int key = randString.charAt(0);
                         myMap.get(key).add(randString); //add to hash
@@ -46,12 +46,11 @@ public class SearchString {
                     System.out.print("Type string: ");
                     String inpStr = console.nextLine();
 
-                    //Search in static array
+                    //Search in array
                     startTime = System.currentTimeMillis();
-                    count = staticArr.searchWord(inpStr);
+                    count = myArr.searchWord(inpStr);
                     timeSpent = System.currentTimeMillis() - startTime;
-
-                    System.out.println("\nSearch in static array:");
+                    System.out.println("\nSearch in array:");
                     System.out.println("Total found: " + count);
                     System.out.println("Time spent: " + timeSpent + "ms");
 
@@ -70,14 +69,12 @@ public class SearchString {
                         }
                     }
                     timeSpent = System.currentTimeMillis() - startTime;
-
                     System.out.println("\nSearch in hash:");
                     System.out.println("Total found: " + count);
                     System.out.println("Time spent: " + timeSpent + "ms");
-
                 } break;
             }
-            System.out.println("\n\n\n\n");
+            System.out.println("\n\n");
         }
         console.close();
     }
@@ -88,7 +85,7 @@ public class SearchString {
         int indChar = 0;
         int lenWord = rand.nextInt(25) + 1; //length from 1 to 25
 
-        // generate random word
+        //generate random word
         for (int i=0; i<lenWord; i++) {
             indChar = rand.nextInt(26) + 97;
             word += Character.toString((char)(indChar));
@@ -98,30 +95,30 @@ public class SearchString {
     }
 }
 
-class StaticArray {
-    String[] myArray;
+class MyArray {
+    String[] strArray;
     int countWords;
 
-    public StaticArray(int _countWords) {
+    public MyArray(int _countWords) {
         countWords = _countWords;
-        myArray = new String[countWords];
+        strArray = new String[countWords];
     }
 
     public void addWord(int _index, String _word) {
-        myArray[_index] = _word;
+        strArray[_index] = _word;
     }
 
-    public void print() {
+    public void printArray() {
         for (int i=0; i<countWords; i++) {
-            System.out.println(myArray[i]);
+            System.out.println(strArray[i]);
         }
     }
 
     public int searchWord(String _inpStr) {
         int count = 0;
         for (int i=0; i<countWords; i++) {
-            if (myArray[i].length() >= _inpStr.length()) {
-                if (_inpStr.equals(myArray[i].substring(0, _inpStr.length()))) { //string comparison
+            if (strArray[i].length() >= _inpStr.length()) {
+                if (_inpStr.equals(strArray[i].substring(0, _inpStr.length()))) { //string comparison
 //                    System.out.println(myArray[i]); //print result
                     count++;
                 }
